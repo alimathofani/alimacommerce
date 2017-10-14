@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::latest()->paginate(env('PER_PAGE'));
 
         return view('post.index', compact('posts'));
     }
@@ -39,6 +39,11 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate(request(), [
+            'title' => 'required',
+            'content' => 'required|min:10'
+        ]);
+
         Post::create([
             'title' => request('title'),
             'slug' => str_slug(request('title')),
@@ -46,7 +51,7 @@ class PostController extends Controller
             'category_id' => request('category_id'),
         ]);
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->withSuccess('Add Post Succes!');
     }
 
     /**
@@ -55,9 +60,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return view('post.show', compact('post'));
     }
 
     /**
@@ -91,7 +96,7 @@ class PostController extends Controller
             'category_id' => request('category_id'),
         ]);
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->withInfo('Update Post Succes!');
     }
 
     /**
@@ -104,6 +109,6 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return redirect()->route('post.index');
+        return redirect()->route('post.index')->withDanger('Post Deleted!');
     }
 }
