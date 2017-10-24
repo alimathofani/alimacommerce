@@ -51,7 +51,7 @@ class PostController extends Controller
             'category_id' => request('category_id'),
         ]);
 
-        return redirect()->route('post.index')->withSuccess('Add Post Succes!');
+        return redirect()->route('post.index')->withSuccess('Add Post Success!');
     }
 
     /**

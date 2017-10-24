@@ -36,7 +36,20 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate(request(), [
+            'name' => 'required',
+            'ptname' => 'required',
+            'since' => 'required'
+        ]);
+        
+        Branch::create([
+            'name' => request('name'),
+            'ptname' => request('ptname'),
+            'since' => request('since'),
+            'slug' => str_slug(request('name')),
+        ]);
+
+        return redirect()->route('branch.index')->withSuccess('Add Branch Success!');
     }
 
     /**
