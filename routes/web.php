@@ -30,9 +30,3 @@ Route::post('/post/{post}/comment', 'PostCommentController@store')->name('post.c
 
 
 Route::get('/admin', 'DashboardController@index')->name('admin.index');
-
-
-Route::get('/admin/branch', 'BranchController@index')->name('branch.index');
-Route::get('/admin/branch/create', 'BranchController@create')->name('branch.create');
-Route::post('/admin/branch/create', 'BranchController@store')->name('branch.store');
-
