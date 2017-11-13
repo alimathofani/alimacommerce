@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\CategoryProduct;
 use App\Product;
+use App\Repositories\ProductRepository;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    private $productRepository;
+
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -47,16 +55,9 @@ class ProductController extends Controller
             'category_product_id' => 'required',
         ]);
 
-        Product::create([
-            'name' => request('name'),
-            'description' => request('description'),
-            'price' => request('price'),
-            'discount' => request('discount'),
-            'quantity' => request('quantity'),
-            'category_id' => request('category_product_id'),
-        ]);
+        $this->productRepository->store($request);
 
-        return redirect()->route('product.index')->withSuccess('Add Post Success!');
+        return redirect()->route('product.index')->withSuccess('Add Product Success!');
     }
 
     /**
@@ -90,18 +91,20 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Product $product)
+    public function update(Request $request, Product $product)
     {
-        $product->update([
-            'name' => request('name'),
-            'description' => request('description'),
-            'price' => request('price'),
-            'discount' => request('discount'),
-            'quantity' => request('quantity'),
-            'category_id' => request('category_product_id'),
+        $this->validate(request(), [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'discount' => 'required',
+            'quantity' => 'required',
+            'category_product_id' => 'required',
         ]);
 
-        return redirect()->route('product.index')->withInfo('Update Post Succes!');
+        $this->productRepository->store($request, $product);
+
+        return redirect()->route('product.index')->withInfo('Update Product Succes!');
     }
 
     /**
