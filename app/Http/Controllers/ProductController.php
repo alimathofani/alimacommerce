@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CategoryProduct;
+use App\Http\Requests\ProductStoreRequest;
 use App\Product;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
@@ -44,17 +45,8 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        $this->validate(request(), [
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-            'discount' => 'required',
-            'quantity' => 'required',
-            'category_product_id' => 'required',
-        ]);
-
         $this->productRepository->store($request);
 
         return redirect()->route('product.index')->withSuccess('Add Product Success!');
@@ -91,17 +83,8 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductStoreRequest $request, Product $product)
     {
-        $this->validate(request(), [
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-            'discount' => 'required',
-            'quantity' => 'required',
-            'category_product_id' => 'required',
-        ]);
-
         $this->productRepository->store($request, $product);
 
         return redirect()->route('product.index')->withInfo('Update Product Succes!');
