@@ -31,8 +31,10 @@ Route::post('/post/{post}/comment', 'PostCommentController@store')->name('post.c
 
 Route::get('/admin', 'DashboardController@index')->name('admin.index');
 
+Route::get('/admin/product', 'ProductController@index')->name('product.index');
+Route::get('/admin/product/create', 'ProductController@create')->name('product.create');
+Route::post('/admin/product/create', 'ProductController@store')->name('product.store');
 
-Route::get('/admin/branch', 'BranchController@index')->name('branch.index');
-Route::get('/admin/branch/create', 'BranchController@create')->name('branch.create');
-Route::post('/admin/branch/create', 'BranchController@store')->name('branch.store');
-
+Route::get('/admin/product/{product}/edit', 'ProductController@edit')->name('product.edit');
+Route::patch('/admin/product/{product}/edit', 'ProductController@update')->name('product.update');
+Route::delete('/admin/product/{product}/delete', 'ProductController@destroy')->name('product.destroy');

@@ -14,8 +14,8 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $branches = Branch::all();
-        return view('admin.home', compact('branches'));
+        
+        return view('admin.home');
     }
 
     /**

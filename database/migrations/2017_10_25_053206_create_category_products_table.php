@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddPtnameToBranches extends Migration
+class CreateCategoryProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddPtnameToBranches extends Migration
      */
     public function up()
     {
-        Schema::table('branches', function (Blueprint $table) {
-            $table->string('ptname')->after('name');
+        Schema::create('category_products', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('slug');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddPtnameToBranches extends Migration
      */
     public function down()
     {
-        Schema::table('branches', function (Blueprint $table) {
-            $table->dropColumn('ptname');
-        });
+        Schema::dropIfExists('category_products');
     }
 }
